@@ -6,23 +6,23 @@
     <title>Sana Bir Sürprizim Var!</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        body { margin: 0; background: #1a1a1a; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; color: white; overflow: hidden; }
-        #game-container { text-align: center; padding: 20px; }
+        body { margin: 0; background: #1a1a1a; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; color: white; overflow: hidden; }
+        #game-container { text-align: center; padding: 25px; max-width: 400px; }
         .boxes { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
-        .gift { font-size: 70px; cursor: pointer; transition: 0.3s; }
+        .gift { font-size: 70px; cursor: pointer; transition: 0.3s; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
         .gift:hover { transform: scale(1.2); }
-        #message-area { display: none; margin-top: 20px; animation: fadeIn 1.5s; }
-        .poem { font-style: italic; color: #ff9999; font-size: 18px; line-height: 1.6; }
-        .note { font-size: 24px; font-weight: bold; margin-top: 15px; }
-        #hint { color: #888; margin-bottom: 10px; font-size: 14px; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #message-area { display: none; animation: fadeIn 1.5s ease-in; }
+        .poem { font-size: 20px; line-height: 1.6; color: #ffcccc; margin-bottom: 25px; font-weight: 500; }
+        .note { font-size: 22px; font-weight: bold; color: #ffffff; border-top: 1px solid #555; padding-top: 15px; }
+        #hint { color: #888; font-size: 14px; letter-spacing: 1px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
     <div id="game-container">
         <div id="setup">
-            <h2>Senin için bir sürprizim var!</h2>
-            <p id="hint">Doğru kutuyu bulman lazım... Seç bakalım:</p>
+            <h2 style="color: #ff4d4d;">Bir Sürpriz! 🎁</h2>
+            <p id="hint">Doğru kutuyu bulman lazım... <br>Seç bakalım:</p>
             <div class="boxes">
                 <div class="gift" onclick="wrong(this)">🎁</div>
                 <div class="gift" onclick="correct()">🎁</div>
@@ -31,28 +31,29 @@
         </div>
         <div id="message-area">
             <div class="poem">
-                "Gözlerin gökyüzü, gülüşün bahar,<br>
-                Seninle her anın ayrı bir tadı var.<br>
-                İyi ki varsın, iyi ki yanımdasın,<br>
-                Kalbimin en güzel köşesindesin."
+                Canım Hocam sizi çok seviyorum,<br>
+                dün biraz bağırdım sesim yükseldi,<br>
+                kusuruma bakma çünkü öğrencin biraz deli🤭<br><br>
+                Bugün hastaydın çok üzgündüm,<br>
+                umarım uyandığında iyi olursun...
             </div>
-            <div class="note">Seni çok seviyorum bitanem! ❤️</div>
+            <div class="note">Hem öğrenciniz hem de doktorunuz olarak öpüyorum😘</div>
         </div>
     </div>
     <script>
         function wrong(element) {
             element.style.opacity = "0.3";
             element.onclick = null;
-            alert("Bu kutu boş çıktı! Diğerlerini dene hayatım :)");
+            alert("Bu kutu boş! Diğerlerini dene öğrencinin delisi :)");
         }
         function correct() {
             document.getElementById('setup').style.display = 'none';
             document.getElementById('message-area').style.display = 'block';
             document.body.style.background = '#2c001e';
-            var end = Date.now() + (7 * 1000);
+            var end = Date.now() + (8 * 1000);
             (function frame() {
-                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff0000', '#ffffff'] });
-                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff0000', '#ffffff'] });
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff0000', '#ffffff', '#ff69b4'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff0000', '#ffffff', '#ff69b4'] });
                 if (Date.now() < end) { requestAnimationFrame(frame); }
             }());
         }
