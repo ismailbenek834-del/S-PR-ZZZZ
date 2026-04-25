@@ -3,354 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sana Bir Sürprizim Var</title>
+    <title>Sana Bir Sürprizim Var!</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        body { 
-            margin: 0; 
-            padding: 0; 
-            background: #1a1a1a; /* Koyu, asil bir arka plan */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            overflow: hidden; 
-            color: white;
-        }
-        #main-container { text-align: center; z-index: 10; padding: 20px; }
-        
-        /* Hediye Kutusu Stili */
-        .gift-emoji { 
-            font-size: 100px; 
-            cursor: pointer; 
-            transition: all 0.4s ease;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
-        }
-        .gift-emoji:hover { transform: scale(1.2) rotate(10deg); }
-        
-        /* Şiir ve Mesaj Alanı */
-        #content { display: none; }
-        .poem { 
-            font-style: italic; 
-            font-size: 18px; 
-            line-height: 1.6; 
-            color: #ff9999;
-            margin-bottom: 25px;
-            animation: fadeIn 2s ease-in;
-        }
-        .personal-note { 
-            font-size: 24px; 
-            font-weight: bold; 
-            color: #ffffff;
-            border-top: 1px solid #444;
-            padding-top: 15px;
-            animation: slideUp 1.5s ease-out;
-        }
-
+        body { margin: 0; background: #1a1a1a; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; color: white; overflow: hidden; }
+        #game-container { text-align: center; padding: 20px; }
+        .boxes { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
+        .gift { font-size: 70px; cursor: pointer; transition: 0.3s; }
+        .gift:hover { transform: scale(1.2); }
+        #message-area { display: none; margin-top: 20px; animation: fadeIn 1.5s; }
+        .poem { font-style: italic; color: #ff9999; font-size: 18px; line-height: 1.6; }
+        .note { font-size: 24px; font-weight: bold; margin-top: 15px; }
+        #hint { color: #888; margin-bottom: 10px; font-size: 14px; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
-        #instruction { font-size: 14px; color: #888; margin-top: 20px; letter-spacing: 2px; }
     </style>
 </head>
 <body>
-
-    <div id="main-container">
-        <div id="opener">
-            <div class="gift-emoji" onclick="revealSurprise()">🎁</div>
-            <div id="instruction">SENİN İÇİN BİR ŞEY VAR... TIKLA</div>
+    <div id="game-container">
+        <div id="setup">
+            <h2>Senin için bir sürprizim var!</h2>
+            <p id="hint">Doğru kutuyu bulman lazım... Seç bakalım:</p>
+            <div class="boxes">
+                <div class="gift" onclick="wrong(this)">🎁</div>
+                <div class="gift" onclick="correct()">🎁</div>
+                <div class="gift" onclick="wrong(this)">🎁</div>
+            </div>
         </div>
-
-        <div id="content">
+        <div id="message-area">
             <div class="poem">
                 "Gözlerin gökyüzü, gülüşün bahar,<br>
                 Seninle her anın ayrı bir tadı var.<br>
                 İyi ki varsın, iyi ki yanımdasın,<br>
-                Kalbimin en güzel, en özel köşesindesin."
+                Kalbimin en güzel köşesindesin."
             </div>
-            <div class="personal-note">
-                Seni çok seviyorum bitanem! ❤️
-            </div>
+            <div class="note">Seni çok seviyorum bitanem! ❤️</div>
         </div>
     </div>
-
     <script>
-        function revealSurprise() {
-            // Kutuyu gizle, içeriği göster
-            document.getElementById('opener').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-            document.body.style.background = '#2c001e'; // Renk değişimi
-
-            // 1. Konfeti Patlaması
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ff0000', '#ffffff', '#ff69b4']
-            });
-
-            // 2. Sürekli Kalp Yağmuru Efekti
-            var end = Date.now() + (10 * 1000); // 10 saniye sürsün
-            var colors = ['#ff0000', '#ff69b4'];
-
+        function wrong(element) {
+            element.style.opacity = "0.3";
+            element.onclick = null;
+            alert("Bu kutu boş çıktı! Diğerlerini dene hayatım :)");
+        }
+        function correct() {
+            document.getElementById('setup').style.display = 'none';
+            document.getElementById('message-area').style.display = 'block';
+            document.body.style.background = '#2c001e';
+            var end = Date.now() + (7 * 1000);
             (function frame() {
-                confetti({
-                    particleCount: 2,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: colors
-                });
-                confetti({
-                    particleCount: 2,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: colors
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            }());
-        }
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sana Bir Sürprizim Var</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <style>
-        body { 
-            margin: 0; 
-            padding: 0; 
-            background: #1a1a1a; /* Koyu, asil bir arka plan */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            overflow: hidden; 
-            color: white;
-        }
-        #main-container { text-align: center; z-index: 10; padding: 20px; }
-        
-        /* Hediye Kutusu Stili */
-        .gift-emoji { 
-            font-size: 100px; 
-            cursor: pointer; 
-            transition: all 0.4s ease;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
-        }
-        .gift-emoji:hover { transform: scale(1.2) rotate(10deg); }
-        
-        /* Şiir ve Mesaj Alanı */
-        #content { display: none; }
-        .poem { 
-            font-style: italic; 
-            font-size: 18px; 
-            line-height: 1.6; 
-            color: #ff9999;
-            margin-bottom: 25px;
-            animation: fadeIn 2s ease-in;
-        }
-        .personal-note { 
-            font-size: 24px; 
-            font-weight: bold; 
-            color: #ffffff;
-            border-top: 1px solid #444;
-            padding-top: 15px;
-            animation: slideUp 1.5s ease-out;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
-        #instruction { font-size: 14px; color: #888; margin-top: 20px; letter-spacing: 2px; }
-    </style>
-</head>
-<body>
-
-    <div id="main-container">
-        <div id="opener">
-            <div class="gift-emoji" onclick="revealSurprise()">🎁</div>
-            <div id="instruction">SENİN İÇİN BİR ŞEY VAR... TIKLA</div>
-        </div>
-
-        <div id="content">
-            <div class="poem">
-                "Gözlerin gökyüzü, gülüşün bahar,<br>
-                Seninle her anın ayrı bir tadı var.<br>
-                İyi ki varsın, iyi ki yanımdasın,<br>
-                Kalbimin en güzel, en özel köşesindesin."
-            </div>
-            <div class="personal-note">
-                Seni çok seviyorum bitanem! ❤️
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function revealSurprise() {
-            // Kutuyu gizle, içeriği göster
-            document.getElementById('opener').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-            document.body.style.background = '#2c001e'; // Renk değişimi
-
-            // 1. Konfeti Patlaması
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ff0000', '#ffffff', '#ff69b4']
-            });
-
-            // 2. Sürekli Kalp Yağmuru Efekti
-            var end = Date.now() + (10 * 1000); // 10 saniye sürsün
-            var colors = ['#ff0000', '#ff69b4'];
-
-            (function frame() {
-                confetti({
-                    particleCount: 2,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: colors
-                });
-                confetti({
-                    particleCount: 2,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: colors
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            }());
-        }
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sana Bir Sürprizim Var</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <style>
-        body { 
-            margin: 0; 
-            padding: 0; 
-            background: #1a1a1a; /* Koyu, asil bir arka plan */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            overflow: hidden; 
-            color: white;
-        }
-        #main-container { text-align: center; z-index: 10; padding: 20px; }
-        
-        /* Hediye Kutusu Stili */
-        .gift-emoji { 
-            font-size: 100px; 
-            cursor: pointer; 
-            transition: all 0.4s ease;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
-        }
-        .gift-emoji:hover { transform: scale(1.2) rotate(10deg); }
-        
-        /* Şiir ve Mesaj Alanı */
-        #content { display: none; }
-        .poem { 
-            font-style: italic; 
-            font-size: 18px; 
-            line-height: 1.6; 
-            color: #ff9999;
-            margin-bottom: 25px;
-            animation: fadeIn 2s ease-in;
-        }
-        .personal-note { 
-            font-size: 24px; 
-            font-weight: bold; 
-            color: #ffffff;
-            border-top: 1px solid #444;
-            padding-top: 15px;
-            animation: slideUp 1.5s ease-out;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
-        #instruction { font-size: 14px; color: #888; margin-top: 20px; letter-spacing: 2px; }
-    </style>
-</head>
-<body>
-
-    <div id="main-container">
-        <div id="opener">
-            <div class="gift-emoji" onclick="revealSurprise()">🎁</div>
-            <div id="instruction">SENİN İÇİN BİR ŞEY VAR... TIKLA</div>
-        </div>
-
-        <div id="content">
-            <div class="poem">
-                "Gözlerin gökyüzü, gülüşün bahar,<br>
-                Seninle her anın ayrı bir tadı var.<br>
-                İyi ki varsın, iyi ki yanımdasın,<br>
-                Kalbimin en güzel, en özel köşesindesin."
-            </div>
-            <div class="personal-note">
-                Seni çok seviyorum bitanem! ❤️
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function revealSurprise() {
-            // Kutuyu gizle, içeriği göster
-            document.getElementById('opener').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-            document.body.style.background = '#2c001e'; // Renk değişimi
-
-            // 1. Konfeti Patlaması
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ff0000', '#ffffff', '#ff69b4']
-            });
-
-            // 2. Sürekli Kalp Yağmuru Efekti
-            var end = Date.now() + (10 * 1000); // 10 saniye sürsün
-            var colors = ['#ff0000', '#ff69b4'];
-
-            (function frame() {
-                confetti({
-                    particleCount: 2,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: colors
-                });
-                confetti({
-                    particleCount: 2,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: colors
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff0000', '#ffffff'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff0000', '#ffffff'] });
+                if (Date.now() < end) { requestAnimationFrame(frame); }
             }());
         }
     </script>
